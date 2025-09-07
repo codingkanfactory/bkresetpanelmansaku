@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Reset Panel - Sistem Manajemen Siswa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-teal-50 via-white to-cyan-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <div class="text-center mb-8 animate-fade-in">
+            <div class="flex justify-center items-center mb-4">
+                <span class="material-icons text-6xl bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                    admin_panel_settings
+                </span>
+            </div>
+            <h1 class="text-4xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent mb-2">
+                Admin Reset Panel
+            </h1>
+            <p class="text-gray-600">Sistem Manajemen Reset Data Siswa dan Kasus</p>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 border border-gray-200 animate-bounce-in">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="material-icons text-white text-2xl">lock</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800">Login Administrator</h3>
+                <p class="text-gray-600 mt-2">Masuk untuk mengakses panel reset</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="relative">
+                    <span class="material-icons absolute left-3 top-3 text-gray-400">email</span>
+                    <input type="email" id="email" placeholder="Email Admin" required
+                           class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200">
+                </div>
+                <div class="relative">
+                    <span class="material-icons absolute left-3 top-3 text-gray-400">lock</span>
+                    <input type="password" id="password" placeholder="Password" required
+                           class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200">
+                </div>
+                <button onclick="login()" 
+                        class="w-full bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-teal-600 hover:to-cyan-700 transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2">
+                    <span class="material-icons">vpn_key</span>
+                    <span>Login</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="hidden animate-fade-in">
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-6 border border-gray-200">
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="material-icons text-3xl text-teal-600">verified_user</span>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800">Panel Administrator</h3>
+                        <p class="text-gray-600">Selamat datang, Administrator!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Left Column - Reset Functions -->
+                <div class="space-y-6">
+                    <!-- Reset All Points & Cases -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <span class="material-icons text-3xl text-red-500">restart_alt</span>
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Reset Point & Kasus Seluruh Siswa</h4>
+                                <p class="text-gray-600 text-sm">Reset semua poin siswa ke 100 dan hapus semua kasus pelanggaran</p>
+                            </div>
+                        </div>
+                        <button id="resetAllBtn" onclick="showResetAllConfirmation()"
+                                class="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-red-600 hover:to-pink-700 transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2 animate-pulse-glow">
+                            <span class="material-icons">warning</span>
+                            <span>Reset All Data</span>
+                        </button>
+                    </div>
+
+                    <!-- Delete All Users -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <span class="material-icons text-3xl text-orange-500">group_remove</span>
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Hapus Semua Siswa</h4>
+                                <p class="text-gray-600 text-sm">Menghapus seluruh data siswa dari sistem</p>
+                            </div>
+                        </div>
+                        <button onclick="showDeleteAllUsersConfirmation()"
+                                class="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-4 rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2">
+                            <span class="material-icons">delete_sweep</span>
+                            <span>Hapus Semua Siswa</span>
+                        </button>
+                    </div>
+
+                    <!-- Delete All Cases -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-200">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <span class="material-icons text-3xl text-purple-500">assignment_turned_in</span>
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">Hapus Semua Kasus</h4>
+                                <p class="text-gray-600 text-sm">Menghapus seluruh data kasus dari sistem</p>
+                            </div>
+                        </div>
+                        <button onclick="showDeleteAllCasesConfirmation()"
+                                class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-purple-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105 flex items-center justify-center space-x-2">
+                            <span class="material-icons">clear_all</span>
+                            <span>Hapus Semua Kasus</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column - Data Display -->
+                <div class="space-y-6">
+                    <!-- Users List -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <span class="material-icons text-3xl text-teal-500">group</span>
+                                <h4 class="text-xl font-bold text-gray-800">Daftar Siswa</h4>
+                            </div>
+                            <button onclick="loadUsers()" 
+                                    class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-2 px-4 rounded-lg font-semibold hover:from-teal-600 hover:to-cyan-700 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2">
+                                <span class="material-icons">refresh</span>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div id="usersList" class="max-h-96 overflow-y-auto">
+                            <div class="flex items-center justify-center py-8 text-gray-500">
+                                <span class="material-icons mr-2">info</span>
+                                <p>Klik "Refresh" untuk memuat data siswa...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cases List -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-200 hover:shadow-xl transition-shadow duration-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <span class="material-icons text-3xl text-teal-500">assignment</span>
+                                <h4 class="text-xl font-bold text-gray-800">Daftar Kasus</h4>
+                            </div>
+                            <button onclick="loadCases()" 
+                                    class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white py-2 px-4 rounded-lg font-semibold hover:from-teal-600 hover:to-cyan-700 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2">
+                                <span class="material-icons">refresh</span>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div id="casesList" class="max-h-96 overflow-y-auto">
+                            <div class="flex items-center justify-center py-8 text-gray-500">
+                                <span class="material-icons mr-2">info</span>
+                                <p>Klik "Refresh" untuk memuat data kasus...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Display -->
+        <div id="status" class="mt-6 p-4 rounded-lg hidden"></div>
+    </div>
+
+    <!-- Confirmation Modals -->
+    <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-xl p-8 m-4 max-w-md w-full animate-bounce-in">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <span id="modalIcon" class="material-icons text-3xl text-red-500">warning</span>
+                    <h3 id="modalTitle" class="text-xl font-bold text-gray-800">Konfirmasi</h3>
+                </div>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            
+            <div class="text-center mb-6">
+                <p id="modalMessage" class="text-gray-700 mb-2"></p>
+                <p class="text-red-600 font-semibold">Aksi ini tidak dapat dibatalkan!</p>
+            </div>
+            
+            <div id="countdown" class="text-6xl font-bold text-red-500 text-center mb-6 animate-pulse">10</div>
+            
+            <div class="flex space-x-3">
+                <button id="confirmBtn" disabled onclick="executeAction()"
+                        class="flex-1 bg-gradient-to-r from-red-500 to-pink-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-red-600 hover:to-pink-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2">
+                    <span class="material-icons">check</span>
+                    <span>Konfirmasi</span>
+                </button>
+                <button onclick="closeModal()"
+                        class="flex-1 bg-gray-300 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-gray-400 transition-all duration-200 flex items-center justify-center space-x-2">
+                    <span class="material-icons">cancel</span>
+                    <span>Batal</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
